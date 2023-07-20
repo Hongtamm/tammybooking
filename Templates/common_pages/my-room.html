@@ -1,0 +1,114 @@
+<style>
+    td img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  width: 150px;
+  background-size: contain;
+}
+td {
+        text-align: center;
+        vertical-align: middle!important;
+      }
+</style>
+<div class="main-page py-4">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+
+    <div class="table-header row">
+
+        <div class="col-sm-12 col-md-12 col-lg-4 mb-3">
+            <h2>My Booking List</h2>
+        </div>
+
+    </div>
+
+    <table class="table table-hover table-striped">
+        <thead class="bg-secondary rounded">
+            <tr>
+                <!-- <form action="" method="POST"> -->
+                {% csrf_token %}
+                <th>Room Images</th>
+                <th>Hotel Name</th>
+                <th>Guest Name</th>
+                <th>Date Of dateOfReservation</th>
+                <th>Start Day</th>
+                <th>End Day </th>
+                <th>Room Type:</th>
+                <th>Total amount</th>
+                <th>Book Cancel</th>
+            </tr>
+
+        </thead>
+        <tbody>
+
+            {% for b in bookings %}
+            <tr>{% load static %}
+                <!-- <td><img src="/media/images/photo/{{ b.roomNumber.images }}" width="20"></td> -->
+                <td><img src="{{  b.roomNumber.images }}" width="100" height="100"></td>
+                <td><a href="{% url 'room-profile' b.roomNumber.number %}">{{b.roomNumber.hotel_name}}</a></td>
+                <td><a href="{% url 'guest-profile' b.guest.user.id %}">{{b.guest.user.first_name}}</a></td>
+                <td>{{ b.dateOfReservation }}</td>
+                <td>{{ b.startDate }}</td>
+                <td>{{ b.endDate }}</td>
+                <td>{{ b.roomNumber.roomType }}</td>
+
+                <td>
+                    {% for key, value in totals.items %}
+                    {% if key == b %}
+                    {{ value }}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                {% if role == "admin" or role == 'manager' %}
+                <td> <a href="{% url 'deleteBooking' b.id %}"
+                        class="btn btn-sm btn-outline-danger">Delete&nbsp;Booking</a></td>
+                {% endif %}
+                <!-- book cancel -->
+                {% if role == "guest" %}
+
+                <form action="{% url 'request-refund' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" value="{{ b.id }}" name="bookingsId">
+                {% if b.startDate <= now %}
+                <td><button type="submit" class="btn btn-outline-success btn-lg" id="write-review-btn" >Send Cancellation
+                    Request</button></td>
+                
+                {% else %}
+                <td><button type="submit" class="btn btn-outline-success btn-lg" name="refReq">Send Cancellation
+                    Request </button></td>
+                
+                {% endif %}
+                </form>
+                
+                {% endif %}
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+
+</div>
+<script>
+    // Lấy thẻ nút "Write Review" bằng id
+    const writeReviewBtns = document.querySelectorAll('#write-review-btn');
+    
+    // Gán sự kiện cho nút
+    writeReviewBtns.forEach(function(btn) {
+    btn.addEventListener('click', function(event) {
+        // Ngăn chặn hành động mặc định của nút khi bấm vào
+        event.preventDefault();
+
+        // Thực hiện các hành động mà bạn muốn khi nút được bấm
+        alert('The cancellation date must be earlier than the check-in date');
+    });
+});
+</script>
+  

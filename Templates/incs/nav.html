@@ -1,0 +1,343 @@
+<style>
+/* Navbar styling */
+.navbar {
+  background-color: #ffffff; /* Change navbar background color */
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1); /* Add shadow effect */
+  padding: 10px 20px; /* Add padding to navbar */
+}
+.container{
+  max-width: 1300px;
+}
+
+.navbar-nav .nav-link {
+  font-weight: 500; /* Set font weight for navbar links */
+  color: #333333; /* Set color for navbar links */
+}
+
+.navbar-nav .nav-link:hover {
+  color: #007bff; /* Change color on hover */
+}
+
+.navbar-toggler {
+  border-color: #007bff; /* Set color for navbar toggler */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e"); /* Change navbar toggler icon */
+}
+
+@media (max-width: 991.98px) {
+  /* Collapse navbar at smaller screen sizes */
+  .navbar-nav {
+    margin-top: 20px; /* Add margin to navbar items */
+  }
+
+  .navbar-collapse {
+    border-top: 1px solid #007bff; /* Add border on collapse */
+    margin-top: 10px; /* Add margin on collapse */
+  }
+
+  .navbar-nav .nav-link {
+    color: #007bff; /* Change color on collapse */
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: #ffffff; /* Change color on collapse hover */
+  }
+}
+
+/* Navbar styling */
+
+.navbar {
+  background-color: #0d6efd;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  padding: 10px 0;
+}
+
+.navbar-brand {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.nav-link:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Active link */
+
+.active {
+  border-bottom: 3px solid #fff;
+  padding-bottom: 8px;
+}
+
+/* Button styling */
+
+.btn-primary {
+  background-color: #fff;
+  border-color: #fff;
+  color: #0d6efd;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar {
+  padding: 0 100px 0 100px;
+}
+
+.navbar-nav .nav-item {
+    margin-left: 20px;
+}
+
+
+</style>
+{% if role == 'guest'%}
+
+                    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                      <a class="navbar-brand" href="{% url 'guest-home'  request.user.guest.user.id %}">
+                        <img src="/media/logo.png" height="60" alt="">
+
+                      </a>
+                      
+                      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                      <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                          {% if role == 'guest' %}
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'announcements' %}">Announcements</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'rooms' %}">Book Room</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'current-room-services' %}">Services</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'events' %}">Events</a>
+                          </li>
+                          {% if request.user.guest.user.id != None %}
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'my-room' %}">My Bookings</a>
+                          </li>
+                          {% endif %}
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'hotel-policy' %}">About Us</a>
+                          </li>
+                          {% endif %}
+                        </ul>
+                        {% if user.is_authenticated %}
+                        <ul class="navbar-nav ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link"  href="{% url 'guest-profile' user.id %}">{{ user.username }}</a>
+
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                          </li>
+                        </ul>
+                        {% else %}
+                        <ul class="navbar-nav ml-auto">
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Login</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'register' %}">Register</a>
+                          </li>
+                        </ul>
+                        {% endif %}
+                      </div>
+                </nav>
+                  
+
+                {% elif role == "not_user"%}
+
+                <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                    <a class="navbar-brand" href="{% url 'guest-home' pk=None %}">
+                        <img src="/media/logo.png" height="60" alt="">
+                    </a>
+
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0 mx-auto">
+                            
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'announcements' %}">Announcements</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'rooms' %}">Book Room</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'current-room-services' %}">Services</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'events' %}">Events</a>
+                            </li>
+                            {% if request.user.guest.user.id != None %}
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'my-room' %}">My Bookings</a>
+                            </li>
+                            {% endif %}
+                            <li class="nav-item">
+                              <a class="nav-link" href="{% url 'hotel-policy' %}">About Us</a>
+                            </li>
+                            
+                          </ul>
+                      {% if user.is_authenticated %}
+                      <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                          <a class="nav-link"  href="{% url 'guest-profile' user.id %}">{{ user.username }}</a>
+
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                      </ul>
+                      {% else %}
+                      <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="{% url 'register' %}">Register</a>
+                        </li>
+                      </ul>
+                      {% endif %}
+                    </div>
+              </nav>
+                {% else %}
+<!--Admin Navbar-->
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg py-3 " role="navigation">
+    <div class="container">
+        {% if role != 'guest' %}
+
+        
+        <a href="" class="navbar-brand">
+
+            <!-- <h2 class="text-capitalize">
+                Tammybooking.xyz
+            </h2> -->
+            <img src="/media/logo.png" height="100" width="200">
+        </a>
+
+        {% endif %} 
+
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarTags">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTags">
+            <ul class="navbar-nav ml-auto">
+                
+                <!-- {% if role == 'guest' %}
+                <li class="nav-item p-2 ">
+                    <a class="nav-link" href="{% url 'guest-home'  request.user.guest.user.id %}">Home</a>
+                </li>
+                {% endif %} -->
+                
+
+                <li class="nav-item dropdown p-2">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-list-ul"></i> Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+
+                        <!--Dropdpwn items are changed by role-->
+
+                        {% if role == 'admin' %}
+
+                        <a class="dropdown-item" href="{% url 'guests'%}">Guests</a>
+                        <a class="dropdown-item" href="{% url 'employees'%}">Employees</a>
+                        <a class="dropdown-item" href="{% url 'events'%}">Events</a>
+                        <a class="dropdown-item" href="{% url 'bookings' %}">Bookings</a>
+                        <a class="dropdown-item" href="{% url 'rooms' %}">Accommodations</a>
+                        <a class="dropdown-item" href="{% url 'room-services' %}">Room Services</a>
+                        <a class="dropdown-item" href="{% url 'announcements' %}">Announcements</a>
+                        <a class="dropdown-item" href="{% url 'refunds' %}">Cancellations</a>
+                        <a class="dropdown-item" href="{% url 'tourist-place' %}">TouristPlace</a>
+
+                        
+
+                        {% elif role == 'manager' %}
+
+                        <a class="dropdown-item" href="{% url 'guests'%}">Guests</a>
+                        <a class="dropdown-item" href="{% url 'employees'%}">Employees</a>
+                        <a class="dropdown-item" href="{% url 'events'%}">Events</a>
+                        <a class="dropdown-item" href="{% url 'bookings' %}">Bookings List</a>
+                        <a class="dropdown-item" href="{% url 'rooms' %}">Booking accommodation</a>
+                        <a class="dropdown-item" href="{% url 'room-services' %}">Accommodation Services</a>
+                        <a class="dropdown-item" href="{% url 'announcements' %}">Announcements</a>
+                        <a class="dropdown-item" href="{% url 'storage' %}">Storage</a>
+                        <a class="dropdown-item" href="{% url 'refunds' %}">Cancellations</a>
+                        <a class="dropdown-item" href="{% url 'tourist-place' %}">TouristPlace</a>
+
+
+
+                        {% elif role == 'receptionist' %}
+
+                        <a class="dropdown-item" href="{% url 'guests'%}">Guests Information</a>
+                        <a class="dropdown-item" href="{% url 'rooms'%}">Accommodation Information</a>
+                        <a class="dropdown-item" href="{% url 'events'%}">Event Information</a>
+                        <a class="dropdown-item" href="{% url 'bookings' %}">Booking Information</a>
+                        <a class="dropdown-item" href="{% url 'announcements'%}">Announcements</a>
+
+                        {% elif role == 'staff' %}
+
+                        <a class="dropdown-item" href="{% url 'tasks'%}">My Tasks</a>
+                        <a class="dropdown-item" href="{% url 'announcements'%}">Announcements</a>
+                        <a class="dropdown-item" href="{% url 'food-menu'%}">Food Menu</a>
+                        <a class="dropdown-item" href="{% url 'storage'%}">Storage</a>
+
+                        {% endif %}
+
+                    </div>
+
+                </li>
+
+                <li class="nav-item dropdown p-2">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> User
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% if role == 'staff' or role == 'receptionist' or role == 'admin' or role == 'manager' %}
+                        <a href="{% url 'employee-profile' user.id %}" class="dropdown-item">Profile</a>
+                        {% endif %}
+                        {% if role == 'guest' %}
+                        <a href="{% url 'guest-profile' user.id %}" class="dropdown-item">Profile</a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}" class="dropdown-item">Change Password</a>
+                        <a href="{% url 'logout' %}" class="dropdown-item">Log Out</a>
+                    </div>
+
+                </li>
+                
+            </ul>
+        </div>
+        
+    </div>
+</nav>
+
+{% endif %}

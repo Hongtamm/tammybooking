@@ -1,0 +1,10 @@
+<div class="main-page py-4">
+  {% block content %}
+    <h1>Edit Tourist Place</h1>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="btn btn-outline-success">Save Changes</button>
+    </form>
+  {% endblock %}
+  </div>

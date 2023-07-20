@@ -1,0 +1,54 @@
+<style>
+  td {
+  vertical-align: middle!important;
+}
+</style>
+<div class="main-page py-4">
+  <div id="messages"> 
+    {% for m in messages %}
+    <div class="alert alert-{{m.tags}}">
+        {{m}}
+    </div>
+    {% endfor %}
+</div>
+  <h2>Tourist Places</h2>
+{% if role != 'guest' %}
+<a href="{% url 'add-tourist-place' %}" class="btn btn-outline-success">Add Tourist Place</a>
+{% endif %}
+<table class="table">
+  <thead>
+    <tr>
+      {% csrf_token %}
+      <th>Name</th>
+      <th>Photo</th>
+      <th>Description</th>
+      <th>Distance from Room</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for place in tourist_places %}
+      <tr>
+        <td>{{ place.name }}</td>
+        <td><img src="{{ place.photo.url }}" alt="{{ place.name }}"  width ="120" height="auto"></td>
+        <td>{{ place.description }}</td>
+        <td>{{ place.distance_from_room }}</td>
+        {% if role != 'guest' %}
+        <td>
+          <a href="{% url 'edit-tourist-place' place.id %}" class="btn btn-outline-primary ">Edit</a>
+          <form action="{% url 'delete-tourist-place' place.id %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger " onclick="return confirm('Are you sure?')">Delete</button>
+          </form>
+        </td>
+        {% endif %}
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="5">No tourist places found.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>

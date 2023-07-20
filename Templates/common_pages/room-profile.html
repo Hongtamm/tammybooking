@@ -1,0 +1,390 @@
+{% load static %}
+<style>
+    .d-flex {
+        display: flex;
+        align-items: center;
+        /* căn giữa theo chiều dọc */
+    }
+
+    #review-image-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    #review-image-modal-img {
+        display: block;
+        margin: auto;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 25px;
+        font-size: 35px;
+        font-weight: bold;
+        color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    /* phan trang */
+    .pagination-wrapper {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .pagination-wrapper a {
+        color: #333;
+        text-decoration: none;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        margin: 0 5px;
+        border-radius: 5px;
+    }
+
+    .pagination-wrapper .current-page {
+        font-weight: bold;
+        margin: 0 10px;
+    }
+
+    .pagination-wrapper .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .star.yellow {
+    color: #ffc107;
+}
+#imageModal {
+  z-index: 9999;
+ 
+}
+
+
+</style>
+<div class="main-page py-4">
+    <div class="">
+
+        <div class="row mt-3">
+            
+
+            <div class="col-md-6">
+                <div class="p-2 h4">
+                    <h2>{{room.hotel_name}}</h2>
+                </div>
+                <div class="p-2">
+                    <h2 style="font-size: 1rem; color: gray; margin-top:-5px;"><i class="fas fa-map-marker-alt"></i> {{room.address}}</h2>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Room Number:</span>
+                    <span class="font-weight-normal">{{room.number}}</span>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Number Of Beds:</span>
+                    <span class="font-weight-normal">{{room.numberOfBeds}}</span>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Price:</span>
+                    <span class="font-weight-normal">{{room.price}}</span>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Discount percent:</span>
+                    <span class="font-weight-normal">{{room.discount}}% OFF</span>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Discount Price:</span>
+                    <span class="font-weight-normal">{{room.discounted_price}}</span>
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Room Type:</span>
+                    <span class="font-weight-normal">{{ room.roomType }}</span>
+
+                </div>
+
+                <div class="p-2 h5">
+                    <span>Capacity: </span>
+                    <span class="font-weight-normal">{{room.capacity}}</span>
+
+                </div>
+                <div class="p-2 h5">
+                    <span>Room Utilities: </span>
+                    <span class="font-weight-normal">{{room.room_include}}</span>
+
+                </div>
+                <div class="p-2 h5">
+                    <span>Average Rating: </span>
+                    <span class="font-weight-normal"> {{ average_rating|floatformat:1 }} - ({{ review_count }}
+                        reviews)</span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="p-2 h5">
+                    <img src="{{ room.images }}" alt="" class="img-fluid" style="border-radius: 10px;">
+                </div>
+
+                {% if role == 'guest' or role == 'not_user'   %}
+                <div class="p-2 h5">
+                    <a class="btn btn-warning w-100" href="{% url 'rooms' %}"><strong>Book Now</strong> </a>
+                </div>
+                {% endif %}
+
+                {% if role == "manager" or role == "admin" %}
+                <div class="p-2 h5">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <input type="date" placeholder="Enter Start Date" name="bsd" required
+                            class="form-control w-50 mb-2">
+                        <input type="date" placeholder="Enter End Date" name="bed" required
+                            class="form-control w-50 mb-2">
+                        <button name="lockRoom" type="submit" class="btn btn-info w-50">Lock This Room</button>
+                        <br>
+
+                    </form>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <hr>
+                        {% if room.statusStartDate != None %}
+                        <div>
+                            This room is closed in between: <br>
+                            from {{room.statusStartDate}} <br>
+                            to {{room.statusEndDate}}
+                            <br>
+                            <hr>
+                            <button name="unlockRoom" type="submit" class="btn btn-info w-50">Unlock This Room</button>
+                        </div>
+                        {% endif %}
+
+                        <div id="messages">
+                            {% for m in messages %}
+
+                            <div class="alert alert-danger">{{m}}</div>
+
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                {% endif %}
+                <br>
+
+            </div>
+            <div class="col-8">
+                <div class="p-2 h4 border p-3 mt-3" style="border-radius: 10px;">
+                    <div class="row">
+                        <div class="col-md-6 d-flex">
+                            <span class="star yellow h3"><strong>Rating</strong> &#9733;&#9733;&#9733;&#9733;&#9733; </span>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            {% if role == 'guest'%}
+                                {% if bookings3 %}
+                                <a href="{% url 'room-review' room.number %}" class="btn btn-warning"><strong>Write Review </strong></a>
+                                {% else %}
+                                <a href="" class="btn btn-warning" id="write-review-btn"><strong>Write Review </strong></a>
+                                {% endif %}
+                            {% elif role == 'not_user'%}
+                                <a href="" class="btn btn-warning" id="write-review-btn"><strong>Write Review </strong></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="font-weight-normal">
+                    <div class="dropdown ml-auto">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-sort mr-2"></i> Sort By:
+                            {% if sort == 'latest' %}
+                            <span>Latest</span>
+                            {% elif sort == 'highest' %}
+                            <span>Highest Rating</span>
+                            {% elif sort == 'lowest' %}
+                            <span>Lowest Rating</span>
+                            {% else %}
+                            <span>None</span>
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <a class="dropdown-item" href="?sort=latest">Latest</a>
+                            <a class="dropdown-item" href="?sort=highest">Highest Rating</a>
+                            <a class="dropdown-item" href="?sort=lowest">Lowest Rating</a>
+                        </div>
+                       
+                    </div>
+                    <div class="slick-slider">
+                    {% for review in reviews %}
+                    <div class="font-weight-normal border p-3 mt-3 h4" style="border-radius: 10px;">
+                        <strong>
+                            <p>{{ review.user }}
+                        </strong> wrote a review {{ review.created_at|date:"d/m/Y" }}</p>
+
+                        <div>
+                            <p class="star yellow">
+                                {% for i in "12345" %}
+                                    {% if i <= review.rate|stringformat:"i" %} &#9733; {% else %} &#9734; {% endif %}
+                                {% endfor %} </p>
+                        </div>
+                        
+                        <p>{{ review.subject }}</p>
+                        <p>{{ review.comment }}</p>
+                        <p><strong>Date of stay:</strong> {{ review.trip_date }}</p>
+                        <div class="row">
+                            {% for image in review.images.all|slice:":5" %}
+                                <div class="col-4 mb-3">
+                                    <img src="{{ image.image }}" alt="{{ image.image.name }}"
+                                    class="img-fluid review-image-thumb" style="max-height:200px;max-width:200px;"
+                                    onclick="showImageModal('{{ image.image }}')">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="row">
+                            {% for image in review.images.all|slice:":5" %}
+                                <div id="imageModal" class="modal">
+                                    <span class="close" onclick="closeImageModal()">&times;</span>
+                                    <img src="{{ image.image }}" alt="{{ image.image.name }}"
+                                        class="img-fluid  modal-content" id="modalImage">
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div id="reviewImageModal" class="modal">
+                            <span class="close">&times;</span>
+                            <img class="modal-content" id="reviewImage">
+                        </div>
+                    </div>
+                    {% empty %}
+                        <p>No review yet.</p>
+                    {% endfor %}   
+                    </div>
+                     
+
+
+
+                    <div class="pagination-wrapper">
+                        <span class="step-links">
+                            {% if reviews.has_previous %}
+                            <a href="?page=1">&laquo; first</a>
+                            <a href="?page={{ reviews.previous_page_number }}">previous</a>
+                            {% endif %}
+
+                            <span class="current-page">
+                                Page {{ reviews.number }} of {{ reviews.paginator.num_pages }}.
+                            </span>
+
+                            {% if reviews.has_next %}
+                            <a href="?page={{ reviews.next_page_number }}">next</a>
+                            <a href="?page={{ reviews.paginator.num_pages }}">last &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+            <br>
+            {% if role != 'guest' and role != 'not_user' %}
+            <div class="table-responsive table-striped my-5">
+                <div class="table-header row">
+
+                    <div class="col-sm-12 col-md-12 col-lg-4 mb-4">
+                        <h5>This room has these reservations</h5>
+                    </div>
+
+                </div>
+
+                <table class="table table-hover table-striped">
+                    <thead class="bg-secondary rounded">
+                        <tr>
+                            {% if role != 'guest' and role != 'not_user' %} <th>Guest Name</th> {% endif %}
+                            <th>From </th>
+                            <th>To</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for bo in bookings %}
+                        <tr>
+                            {% if role != 'guest' and role != 'not_user' %} <td><a href="{% url 'guest-profile' bo.guest.user.id %}">
+                                    {{bo.guest.user.first_name}}
+                                    {{bo.guest.user.last_name}}</a></td>
+                            {%endif %}
+                            <td>{{bo.startDate}}</td>
+                            <td>{{bo.endDate}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+                </table>
+
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+    <script>
+        function showImageModal(imageUrl) {
+            var modal = document.getElementById("imageModal");
+            var modalImage = document.getElementById("modalImage");
+            const overlay = document.querySelector('.overlay');
+            modal.style.display = "block";
+            modalImage.src = imageUrl;
+            modalImage.style.width = "60%";
+            modalImage.style.height = "auto";
+        }
+
+        function closeImageModal() {
+            var modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+    </script>
+    <script>
+        // Lấy thẻ nút "Write Review" bằng id
+        const writeReviewBtn = document.getElementById('write-review-btn');
+        
+        // Gán sự kiện cho nút
+        writeReviewBtn.addEventListener('click', function(event) {
+            // Ngăn chặn hành động mặc định của nút khi bấm vào
+            event.preventDefault();
+            
+            // Thực hiện các hành động mà bạn muốn khi nút được bấm
+            alert('Please make a reservation for reviewing');
+        });
+    </script>
+    

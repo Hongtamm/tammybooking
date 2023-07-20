@@ -1,0 +1,27 @@
+{% include 'incs/head.html' %}
+
+<body>
+    {% include 'incs/nav.html' %}
+    {% if role == 'guest' or  role == "not_user" %}
+        <style>
+            body {
+            margin-top: 70px;
+            }
+        </style>
+
+    
+
+    {% endif %}
+
+    {% block context %}
+
+
+
+    {% endblock %}
+
+
+    {% include 'incs/footer.html' %}
+
+</body>
+
+</html>

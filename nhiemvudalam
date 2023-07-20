@@ -1,0 +1,54 @@
+Báo cáo tốt nghiệp
+sửa lại các nội dung sau:
+Tên đề tài:nghiên cứu xây dựng website review khách sạn, homestay tỉnh Quảng Bình
+ngày 23/4/2023
+- [x] ảnh tải lên mình phải chỉnh 1 kích thước để hiển thị trang chủ cho đẹp
+- [x] đã sửa xong ảnh ở trang chủ, cần đổi kích thước 600* 600 trước khi đăng lên, hoặc kích thước vuông, là ok, hiển thị ảnh ở book lít, và rôm ok. 
+- [x] cần sửa phần hiển thị nút review khi đã đặt phòng. và ngược lại
+- [x] sửa ảnh của hotel book(Sửa book room ở nav) ảnh ở book list, và trong review
+- [x] sửa báo cáo lại cho giống với báo cáo thực tập, phần 1, mục tiêu, phương pháp…Nội dung của phần 1 lý do chọn đề tài, 
+- [x] sửa thống kê theo tháng, năm các phòng đã đặt
+- [x] Thêm lọc danh sách chỗ nghỉ theo huyện, xoá 3 trường đầu tiên gồm 
+Room Number	Capacity	Number of Beds
+- [x] 	K view được phòng trong rôm phần admin
+- [x] Thay bằng các room_area,  tiện ích(room_include), chọn huyện(district), ưu điểm Nearby Places : về vị trí, gần biển gần địa điểm du lịch, gần trung tâm thành phố, trung tâm huyện, gần chợ,…
+- [x] Sau khi Nhân filter nó mới hiển thị tiền ở phần rôm services
+ngày 28/4/2023 thêm chức năng huỷ đặt phòng
+ngày 1/5/2023 + sửa lại trang chủ
+- [x] Thêm nút đặt phòng ngay thì vào trang rôm book ở trong chổ chi tiết phòng, nếu chưa đặt phòng này, 
+- [x] sửa bookings, phần link của khách sạn bị hỏng
+Ngày 2/5
+- [x] sửa theo em yêu cầu ở file
+- [x] Thêm phòng có địa điểm gần đây. là ok, nhấn vào ảnh ở trang chủ sẽ ra
+- [x] Nearby Places thay nội dung bằng TouristPlace
+- [x] Hiển thị danh sách các địa danh theo khách sạn ở trang chủ theo , touristplace có thêm nhiều sự lựa chọn xem,  
+- [x] lỗi nhập tên hotel ở room, chọn filter
+- [x] Thêm xem phòng ở book
+- [x] sửa lại chữ xem thêm ở đành giá cao
+- [x] Thêm lọc địa điểm du lịch cho rooms
+ngày 3/5
+- [x] đổi trang chủ trước rồi mới đăng nhập,
+- [x] Cho phép k đăng nhập ở các màn hình sau: rooms, trang chủ(guest home), xem phòng(room-profile), khi truy cập vào các trang còn lại nếu chưa đăng nhập sẽ truy cập Trang login
+- [x] See more của hotel và homestay phải truyền vào tham số
+- [x] Thêm message cho tourist_place trang của nó,
+- [x] sửa $$ thành usd
+- [x] sửa lại kích thước ảnh ở trang chủ, sửa lại all ảnh tải lên cho đẹp, kích thước tải lên phải vuông
+- [x] xoá url sau dấu ? để xoá bộ lọc lại của rôm
+bổ sung đợt 2 
+- [x] Thêm nút trang chủ ở phần login
+- [x] sửa menu cho thằng not user, nhiều leń
+- [x] sửa footer treo cao xấu xí
+- [x] Chi tiết đặt phòng container thành main…tương tự cho payment,
+- [x] Hotel policy xấu xí
+5/5/2023
+- [x] sửa menu và footer của admin
+- [x] sửa thông báo, thêm phần edit vào màn hình thông báo với admin
+- [x] Khi nhấn vào xem ảnh của đánh giá thì k thoát ra được vì nút x bị vướng menu
+- [x] nút huỷ đặt phòng phải hiển thị và nếu người dùng bấm và thì check điều kiện và hiển thị dialog hoặc message
+- [x] Please make a reservation for reviewing sửa lại cho chính xác ở chi tiết phòng, nhấn vào hiện trang đăng nhập	
+- [x] About us thay vì policy xoá phần policy
+- [x] sửa background của footer thành màu xám
+- [x] lọc theo tên khách sạn ở trang chủ
+7.5.2023
+- [x] sửa đặt phòng, gửi email về, thêm thanh toán sau
+- [x] Receptionist chưa xoá booking được vì chưa có template cho nó
