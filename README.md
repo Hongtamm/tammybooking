@@ -1,8 +1,8 @@
-# myhotelsite
+# tammybooking.xzy
+
 
 hotel reservation site with Django 
 
-for course webdesign in buqaen university
 
 # install packages
 
