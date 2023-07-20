@@ -2,6 +2,7 @@
 
 
 hotel + homestay booking and review site with Django 
+
 <img width="451" alt="image" src="https://github.com/Hongtamm/tammybooking/assets/112357163/4e348767-a4fc-458a-bec3-dbf854aa66de">
 <img width="451" alt="image" src="https://github.com/Hongtamm/tammybooking/assets/112357163/2ff97a6e-9bae-4cc8-913e-c3535fda04fa">
 <img width="451" alt="image" src="https://github.com/Hongtamm/tammybooking/assets/112357163/19d40e18-1ac6-4584-8fd6-51a17d6a6743">
